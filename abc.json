@@ -1,0 +1,14 @@
+{
+    "name": "select",
+    "version": "1.4",
+    "desc": "模拟选择框组件（测试中，请勿使用）",
+    "cover": "",
+    "tag":"",
+    "author": {
+        "name": "明河",
+        "email": "minghe12@126.com",
+        "page": ""
+    },
+    "type": "kissy-gallery",
+    "type-url": "http://gallery.kissyui.com/guide"
+}
