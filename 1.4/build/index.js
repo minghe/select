@@ -94,7 +94,7 @@ KISSY.add('gallery/select/1.4/index',function (S, Node, MenuButton, Menu, undefi
                 S.later(function(){
                     $target.val(e.newVal || "");
                     $target.fire('change');
-                    self.fire("change",{value:e.newVal,$select:$target});
+                    self.fire("valueChange",{value:e.newVal,$select:$target});
                 })
             })
         },

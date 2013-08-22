@@ -54,9 +54,9 @@
                         }
                     }}
         )
-        select.on('change',function(ev){
+        select.on('valueChange',function(ev){
             var $select = ev.$select;
-
+            S.log($select[0].value);
         })
         select.render();
 
