@@ -79,7 +79,7 @@ KISSY.add(function (S, Node, MenuButton, Menu, undefined) {
         _bind:function(){
             var self = this;
             var menu = self.get('menu');
-            if(!menu) return false;
+            if(S.isEmptyObject(menu)) return false;
             var el = menu.get('el');
             if(!el || !el.length) return false;
             el.on('mouseover',function(ev){
@@ -96,8 +96,6 @@ KISSY.add(function (S, Node, MenuButton, Menu, undefined) {
          */
         sync:function(){
             var self = this;
-            var menu = self.get("menu");
-            if(!menu) return self;
             //删除所有的下拉项
             self.removeItems(true);
             var menuData = self.menuData();
