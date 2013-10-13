@@ -12,37 +12,17 @@ KISSY.add('gallery/select/1.4/index',function (S, Node, MenuButton, Menu, undefi
     var $ = Node.all;
     var Select = MenuButton.Select;
     var PREFIX_CLS = 'bf-';
+    var DATA_ITEM = 'data-item';
     var Item = Menu.Item;
     function ButterflySelect(target,config){
         var self = this;
-        var config = self._decorate(target,config);
         if(!config.prefixCls) S.mix(config,{prefixCls:PREFIX_CLS});
+        if(!config.elBefore)  S.mix(config,{elBefore:$(target)});
         //调用父类构造函数
         ButterflySelect.superclass.constructor.call(self, config);
         self.set('target',target);
     }
     S.extend(ButterflySelect,Select,{
-        /**
-         * 处理menu的配置
-         * @param cfg
-         * @return {*}
-         * @private
-         */
-        _decorate:function(element,cfg){
-            var self = this;
-            element = $(element);
-            if(!element.length) return false;
-            cfg = cfg || {};
-            cfg.elBefore = element;
-
-            var menuData = self.menuData(element);
-            S.mix(cfg, {
-                menu: S.mix(menuData.menu, cfg.menuCfg)
-            });
-
-            S.mix(cfg, menuData.selectedItem);
-            return cfg;
-        },
         /**
          * 从select中拉取数据，生成menu可用的data
          * @return {Object} { selectedItem:{}, allItems : [] }
@@ -67,7 +47,8 @@ KISSY.add('gallery/select/1.4/index',function (S, Node, MenuButton, Menu, undefi
                     content: option.text(),
                     elCls: option.attr("class"),
                     value: option.val(),
-                    prefixCls:PREFIX_CLS
+                    prefixCls:PREFIX_CLS,
+                    elOption: option
                 };
                 if (curValue == option.val()) {
                     data.selectedItem = {
@@ -89,6 +70,7 @@ KISSY.add('gallery/select/1.4/index',function (S, Node, MenuButton, Menu, undefi
             var $target = self.get('target');
             if(!$target.length) return false;
             $target.hide();
+            self.sync();
             self.on("afterValueChange", function (e) {
                 //TODO:IE6存在bug，无法选中，所以加个延迟
                 S.later(function(){
@@ -96,6 +78,21 @@ KISSY.add('gallery/select/1.4/index',function (S, Node, MenuButton, Menu, undefi
                     $target.fire('change');
                     self.fire("valueChange",{value:e.newVal,$select:$target});
                 })
+            })
+            self._bind();
+        },
+        _bind:function(){
+            var self = this;
+            var menu = self.get('menu');
+            if(!menu) return false;
+            var el = menu.get('el');
+            if(!el || !el.length) return false;
+            el.on('mouseover',function(ev){
+                var $target = $(ev.target);
+                if($target.hasClass('bf-menuitem')){
+                    var item = $target.data(DATA_ITEM);
+                    self.fire('itemMouseover',{$item:$target,item:item});
+                }
             })
         },
         /**
@@ -113,12 +110,19 @@ KISSY.add('gallery/select/1.4/index',function (S, Node, MenuButton, Menu, undefi
             var items = menuData.menu.children;
             S.each(items,function(itemConfig){
                 var item = new Item(itemConfig);
+                //保存option元素
+                var $target = itemConfig.elOption;
+                if($target) item.set('target',$target);
                 self.addItem(item);
+                //将Item实例缓存到div上
+                var el = item.get('el');
+                el.data(DATA_ITEM,item);
                 if(itemConfig.value == selectedItem.value){
                     self.set('value',itemConfig.value);
                     self.set('content',itemConfig.content);
                 }
-            })
+            });
+            self.fire('sync');
         }
     },{ATTRS:{
         target:{
