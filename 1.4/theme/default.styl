@@ -2,6 +2,7 @@ borderColor = #CCCCCC
 optionHeight = 26px
 optionHoverColor = #FF6600
 optionHoverBgColor = #FFF8F3
+selectedColor = #FF6600
 fontSize = 12px
 .bf-select
   border: 1px solid borderColor
@@ -23,16 +24,21 @@ fontSize = 12px
 .bf-menu
   border: 1px solid borderColor
   background-color: #fff
+  overflow: hidden
   .bf-menuitem
     height: optionHeight
     line-height: @height
     color: #333333
     font-size: fontSize
-    padding-left: 12px
+    padding-left: 30px
     cursor: pointer
   .bf-menuitem-hover
     color: optionHoverColor
     background-color: optionHoverBgColor
+  .bf-menuitem-selected
+    background: url("http://gtms03.alicdn.com/tps/i3/T1J8TvFlVbXXXugmZ.-11-8.png") no-repeat 10px 10px
+    color: selectedColor
+    font-weight: bold
 
 
 
