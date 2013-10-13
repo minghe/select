@@ -80,6 +80,7 @@ KISSY.add('gallery/select/1.4/index',function (S, Node, MenuButton, Menu, undefi
                 })
             })
             self._bind();
+            self.fire('render');
         },
         _bind:function(){
             var self = this;

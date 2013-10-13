@@ -74,6 +74,7 @@ KISSY.add(function (S, Node, MenuButton, Menu, undefined) {
                 })
             })
             self._bind();
+            self.fire('render');
         },
         _bind:function(){
             var self = this;
