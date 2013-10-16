@@ -18,6 +18,8 @@ KISSY.add('gallery/select/1.4/index',function (S, Node, MenuButton, Menu, undefi
         var self = this;
         if(!config.prefixCls) S.mix(config,{prefixCls:PREFIX_CLS});
         if(!config.elBefore)  S.mix(config,{elBefore:$(target)});
+        if(!config.width) config.width = $(target).width();
+
         //调用父类构造函数
         ButterflySelect.superclass.constructor.call(self, config);
         self.set('target',target);
